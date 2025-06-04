@@ -11,6 +11,8 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -19,6 +21,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Space Flight News"
+rootProject.name = "SpaceFlightNews"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
  
