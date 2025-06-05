@@ -24,6 +24,8 @@ dependencies {
     //compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+
+    // Workaround to access libs from convention plugin
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
