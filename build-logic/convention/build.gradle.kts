@@ -36,7 +36,12 @@ tasks {
 
 gradlePlugin {
     plugins {
-        /*register("androidApplication") {
+        register("androidLint") {
+            id = "denebchorny.android.lint"
+            implementationClass = "AndroidLintConventionPlugin"
+            version = "1.0.0"
+        }
+        register("androidApplication") {
             id = "denebchorny.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
             version = "1.0.0"
@@ -66,11 +71,6 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
             version = "1.0.0"
         }
-        register("androidLint") {
-            id = "denebchorny.android.lint"
-            implementationClass = "AndroidLintConventionPlugin"
-            version = "1.0.0"
-        }
         register("hilt") {
             id = "denebchorny.hilt"
             implementationClass = "HiltConventionPlugin"
@@ -90,6 +90,6 @@ gradlePlugin {
             id = "denebchorny.android.feature.presentation"
             implementationClass = "AndroidFeaturePresentationConventionPlugin"
             version = "1.0.0"
-        }*/
+        }
     }
 }

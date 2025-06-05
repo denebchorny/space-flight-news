@@ -9,10 +9,15 @@ lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
 composeBom = "2025.06.00"
 jetbrainsKotlinJvm = "2.1.20"
-appcompat = "1.6.1"
-material = "1.10.0"
-androidTools = "31.9.1"
+appcompat = "1.7.1"
+material = "1.12.0"
+androidTools = "31.10.1"
 ksp = "2.1.20-1.0.32"
+denebchornyPlugin = "1.0.0"
+kotlinxCoroutinesCore = "1.9.0"
+hilt = "2.56.1"
+androidxHiltNavigationCompose = "1.2.0"
+androidxLifecycle = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -22,6 +27,8 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -31,7 +38,13 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
+androidx-compose-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -47,4 +60,21 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+lint = { id = "com.android.lint", version.ref = "agp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# Plugins defined by this project
+denebchorny-androidApplication = { id = "denebchorny.android.application", version.ref = "denebchornyPlugin" }
+denebchorny-androidApplicationCompose = { id = "denebchorny.android.application.compose", version.ref = "denebchornyPlugin" }
+denebchorny-androidFeatureData = { id = "denebchorny.android.feature.data", version.ref = "denebchornyPlugin" }
+denebchorny-androidFeatureDomain = { id = "denebchorny.android.feature.domain", version.ref = "denebchornyPlugin" }
+denebchorny-androidFeaturePresentation = { id = "denebchorny.android.feature.presentation", version.ref = "denebchornyPlugin" }
+denebchorny-androidLibrary = { id = "denebchorny.android.library", version.ref = "denebchornyPlugin" }
+denebchorny-androidLibraryCompose = { id = "denebchorny.android.library.compose", version.ref = "denebchornyPlugin" }
+denebchorny-androidLint = { id = "denebchorny.android.lint", version.ref = "denebchornyPlugin" }
+denebchorny-hilt = { id = "denebchorny.hilt", version.ref = "denebchornyPlugin" }
+denebchorny-jvmCoreDomain = { id = "denebchorny.jvm.coreDomain", version = "denebchornyPlugin" }
+denebchorny-jvmLibrary = { id = "denebchorny.jvm.library", version.ref = "denebchornyPlugin" }
 
