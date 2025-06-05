@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -11,6 +12,8 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -19,6 +22,17 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Space Flight News"
+rootProject.name = "SpaceFlightNews"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":app")
- 
+include(":core")
+include(":core:common")
+include(":core:common:android")
+include(":core:common:jvm")
+include(":core:designsystem")
+include(":core:model")
+include(":core:network")
+include(":core:network:android")
+include(":core:network:di")
+include(":core:ui")
