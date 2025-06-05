@@ -3,7 +3,7 @@ package com.denebchorny.core.common.jvm.result
 /**
  * Represents a marker interface for errors.
  *
- * This interface is optional and can be used with the [Result] class to group errors of the same type.
+ * This interface is optional and can be used with the [Outcome] class to group errors of the same type.
  * By implementing this interface, you can standardize error handling and ensure consistency
  * across different parts of your application.
  *
@@ -21,7 +21,7 @@ package com.denebchorny.core.common.jvm.result
  * }
  * ```
  *
- * Then use it with the [Result] class:
+ * Then use it with the [Outcome] class:
  *
  * ```
  * val result: Result<Error, String> = ...
