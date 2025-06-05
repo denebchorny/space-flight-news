@@ -1,4 +1,4 @@
-package com.denebchorny.spaceflightnews.ui.theme
+package theme.color
 
 import androidx.compose.ui.graphics.Color
 
