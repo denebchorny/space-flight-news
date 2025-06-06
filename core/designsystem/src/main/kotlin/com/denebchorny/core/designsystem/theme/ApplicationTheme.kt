@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import com.denebchorny.core.designsystem.component.statusBar.StatusBar
 import com.denebchorny.core.designsystem.theme.appearance.Appearance
 import com.denebchorny.core.designsystem.theme.appearance.Appearance.Dark
 import com.denebchorny.core.designsystem.theme.appearance.Appearance.FollowSystem
@@ -27,7 +28,7 @@ fun ApplicationTheme(
     val colorScheme = rememberColorScheme(appearance, isSystemDark)
 
     CompositionLocalProvider(LocalSpacing provides spacing) {
-        // StatusBar(appearance, isSystemDark)
+        StatusBar(appearance, isSystemDark)
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,

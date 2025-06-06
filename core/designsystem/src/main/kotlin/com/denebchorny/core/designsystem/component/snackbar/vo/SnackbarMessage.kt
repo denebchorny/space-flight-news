@@ -2,7 +2,6 @@ package com.denebchorny.core.designsystem.component.snackbar.vo
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.hipcam.android.core.designsystem.presentation.component.snackbar.vo.SnackbarText
 
 data class SnackbarMessage(
     val text: SnackbarText,

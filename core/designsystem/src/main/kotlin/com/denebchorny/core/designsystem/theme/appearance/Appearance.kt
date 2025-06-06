@@ -6,7 +6,7 @@ enum class Appearance {
     FollowSystem;
 
     companion object {
-        val default = FollowSystem
+        val default = Light
         fun find(value: String?) =
             Appearance.entries.find { it.name == value } ?: default
     }

@@ -11,7 +11,7 @@ import com.denebchorny.core.designsystem.theme.color.tokenization.ColorSchemeKey
 import com.denebchorny.core.designsystem.theme.color.tokenization.ColorSchemeKeyTokens.OnErrorContainer
 import com.denebchorny.core.designsystem.theme.color.tokenization.ColorSchemeKeyTokens.OnPrimaryContainer
 import com.denebchorny.core.designsystem.theme.color.tokenization.ColorSchemeKeyTokens.PrimaryContainer
-import com.hipcam.android.core.designsystem.presentation.component.snackbar.vo.snackbarText
+import com.denebchorny.core.designsystem.component.snackbar.vo.snackbarText
 
 /**
  * Factory class for creating different types of Snackbars within the application.

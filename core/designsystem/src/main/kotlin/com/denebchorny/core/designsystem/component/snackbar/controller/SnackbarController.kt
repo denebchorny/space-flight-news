@@ -11,7 +11,7 @@ import com.denebchorny.core.designsystem.component.snackbar.visuals.UiSnackbarVi
 import com.denebchorny.core.designsystem.component.snackbar.vo.SnackbarEnterMode
 import com.denebchorny.core.designsystem.component.snackbar.vo.SnackbarMessage
 import com.denebchorny.core.designsystem.component.snackbar.vo.getColor
-import com.hipcam.android.core.designsystem.presentation.component.snackbar.vo.getString
+import com.denebchorny.core.designsystem.component.snackbar.vo.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="articlelist_empty_description">Intenta deslizar para actualizar más tarde y veamos si hay nuevas noticias.</string>
+    <string name="articlelist_empty_search_description">Intenta refinar tu búsqueda</string>
+    <string name="articlelist_empty_search_title">No se encontraron coincidencias</string>
+    <string name="articlelist_empty_title">No hay artículos en este momento</string>
+    <string name="articlelist_error_fetching_data">¡Vaya! Ocurrió un error al intentar actualizar la información.</string>
+    <string name="articlelist_error_getting_article">No se pudo obtener la información del artículo.</string>
+    <string name="articlelist_retry_description">Verifica que tienes internet e intenta nuevamente más tarde deslizar para actualizar y veamos si recuperamos los artículos. ¡Mucho éxito, cadete!</string>
+    <string name="articlelist_retry_title">¡Ops! Houston, tenemos un problema</string>
+</resources>

@@ -13,5 +13,5 @@ package com.denebchorny.core.common.android.viewmodel
  * @param T The type of the event that this listener will handle.
  */
 interface UIEventListener<T> {
-    fun onEvent(type: T)
+    fun onEvent(event: T)
 }

@@ -1,6 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
 import com.denebchorny.buildlogic.convention.extensions.alias
 import com.denebchorny.buildlogic.convention.extensions.android
+import com.denebchorny.buildlogic.convention.extensions.api
 import com.denebchorny.buildlogic.convention.extensions.implementation
 import com.denebchorny.buildlogic.convention.extensions.libs
 import com.denebchorny.buildlogic.convention.extensions.plugins
