@@ -1,6 +1,5 @@
 package com.denebchorny.feature.articles.data.repository
 
-import android.util.Log
 import com.denebchorny.core.common.jvm.result.Outcome
 import com.denebchorny.core.network.android.adapter.fold
 import com.denebchorny.feature.articles.data.remote.api.ArticlesApi

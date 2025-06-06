@@ -22,6 +22,7 @@ import com.denebchorny.feature.articles.presentation.module.articleList.interact
 import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListScreenState
 import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListUiMode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +33,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticleListViewmodel @Inject constructor(
-    val fetchArticlesUseCase: FetchArticlesUseCase
+    private val fetchArticlesUseCase: FetchArticlesUseCase,
+    private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel(), LifecycleListener, UIEventListener<ArticleListUIEvent> {
 
     // ATTRIBUTES ---------------------------------------------------------------------------------
@@ -73,7 +75,7 @@ class ArticleListViewmodel @Inject constructor(
     // API CALLS ----------------------------------------------------------------------------------
     private fun fetchArticles() {
         articlesRequestsJob?.cancel()
-        articlesRequestsJob = viewModelScope.launch {
+        articlesRequestsJob = viewModelScope.launch(mainDispatcher) {
             if (articles.isEmpty()) {
                 state.update {
                     it.copy(
