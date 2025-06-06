@@ -5,5 +5,7 @@
     <string name="articlelist_empty_title">No articles at the moment</string>
     <string name="articlelist_retry_description">Check that you have internet and try pulling to refresh again later to see if we can retrieve the articles. Good luck, cadet!.</string>
     <string name="articlelist_retry_title">Ops! Houston, we have a problem</string>
+    <string name="articlelist_empty_search_description">Try refining your search</string>
+    <string name="articlelist_empty_search_title">No matches found</string>
     <string name="articlelist_error_fetching_data">Oops! An error occurred while trying to update the information.</string>
 </resources>

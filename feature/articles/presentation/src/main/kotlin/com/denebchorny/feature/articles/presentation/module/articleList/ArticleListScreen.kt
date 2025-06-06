@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ import com.denebchorny.core.ui.component.observer.Lifecycle
 import com.denebchorny.core.ui.component.search.SearchBar
 import com.denebchorny.feature.articles.presentation.R
 import com.denebchorny.feature.articles.presentation.components.EmptyContent
+import com.denebchorny.feature.articles.presentation.components.EmptySearchContent
 import com.denebchorny.feature.articles.presentation.components.RetryContent
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIAction
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnArticleClicked
@@ -102,8 +104,7 @@ private fun ArticleListLayout(
             SearchBar(
                 modifier = Modifier.padding(horizontal = Theme.spacing.default),
                 query = state.searchQuery,
-                onQueryChange = callbacks.onSearchQueryChanged,
-                onClickTrailingIcon = { }
+                onQueryChange = callbacks.onSearchQueryChanged
             )
             PullToRefresh(
                 isRefreshing = state.isRefreshing,
@@ -113,6 +114,7 @@ private fun ArticleListLayout(
                     when (state.uiMode) {
                         ArticleListUiMode.Content -> ArticleListContent(
                             items = state.items,
+                            searchQuery = state.searchQuery,
                             scrollBehavior = scrollBehavior,
                             callbacks = callbacks
                         )
@@ -130,29 +132,48 @@ private fun ArticleListLayout(
 @Composable
 private fun ArticleListContent(
     items: List<ArticleItemData>,
+    searchQuery: String,
     scrollBehavior: TopAppBarScrollBehavior,
     callbacks: ArticleListCallbacks
 ) {
     val spacing = LocalSpacing.current
     val listState = rememberLazyListState()
 
-    LazyColumn(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        state = listState,
-        contentPadding = PaddingValues(
-            start = spacing.default,
-            end = spacing.default,
-            top = spacing.default,
-            bottom = spacing.large
-        ),
-        verticalArrangement = Arrangement.spacedBy(spacing.medium),
-    ) {
-        items(items = items, key = { item -> item.id }) { item ->
-            ArticleCard(article = item) {
-                callbacks.onArticleClicked(item.id)
+    val filteredItems by remember(items, searchQuery) {
+        derivedStateOf { filterItems(items, searchQuery) }
+    }
+
+    if (searchQuery.isNotEmpty() && filteredItems.isEmpty()) {
+        EmptySearchContent()
+    } else {
+        LazyColumn(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            state = listState,
+            contentPadding = PaddingValues(
+                start = spacing.default,
+                end = spacing.default,
+                top = spacing.default,
+                bottom = spacing.large
+            ),
+            verticalArrangement = Arrangement.spacedBy(spacing.medium),
+        ) {
+            items(items = filteredItems, key = { item -> item.id }) { item ->
+                ArticleCard(
+                    modifier = Modifier.animateItem(),
+                    article = item
+                ) {
+                    callbacks.onArticleClicked(item.id)
+                }
             }
         }
     }
+}
+
+private fun filterItems(
+    items: List<ArticleItemData>,
+    query: String
+) = items.filter { item ->
+    query.isBlank() || item.title.contains(query, ignoreCase = true)
 }
 
 @PreviewScreen

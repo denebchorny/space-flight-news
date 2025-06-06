@@ -34,7 +34,7 @@ fun SearchBar(
     query: String = "",
     trailingIcon: ImageVector? = null,
     onQueryChange: (String) -> Unit,
-    onClickTrailingIcon: () -> Unit
+    onClickTrailingIcon: () -> Unit = {}
 ) {
     TextField(
         modifier = modifier.fillMaxWidth(),

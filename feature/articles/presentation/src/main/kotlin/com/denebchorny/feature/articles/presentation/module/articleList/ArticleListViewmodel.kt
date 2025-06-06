@@ -53,7 +53,7 @@ class ArticleListViewmodel @Inject constructor(
             is ArticleListUIEvent.OnArticleClicked -> onArticleClicked(event.id)
             is ArticleListUIEvent.OnMenuItemClicked -> {}
             is ArticleListUIEvent.OnPullToRefresh -> onPullToRefresh()
-            is ArticleListUIEvent.OnSearchQueryChanged -> {}
+            is ArticleListUIEvent.OnSearchQueryChanged -> onSearchQueryChanged(event.query)
         }
     }
 
@@ -113,7 +113,11 @@ class ArticleListViewmodel @Inject constructor(
         fetchArticles()
     }
 
-    private fun setPullToRefresh(value: Boolean){
+    private fun setPullToRefresh(value: Boolean) {
         state.update { it.copy(isRefreshing = value) }
+    }
+
+    private fun onSearchQueryChanged(query: String) {
+        state.update { it.copy(searchQuery = query) }
     }
 }
