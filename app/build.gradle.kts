@@ -70,11 +70,13 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.ui.tooling.preview)
 
+    debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.leakcanary)
+
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    debugImplementation(libs.androidx.ui.test.manifest)
-    debugImplementation(libs.androidx.ui.tooling)
-    testImplementation(libs.junit)
 }
