@@ -1,8 +1,8 @@
 package com.denebchorny.feature.articles.presentation.module.articleList
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.denebchorny.core.common.android.resources.uiText.UiText
 import com.denebchorny.core.common.android.resources.uiText.uiText
 import com.denebchorny.core.common.android.viewmodel.LifecycleListener
 import com.denebchorny.core.common.android.viewmodel.UIEventListener
@@ -11,12 +11,15 @@ import com.denebchorny.core.common.jvm.result.onErrorSuspend
 import com.denebchorny.core.common.jvm.result.onSuccess
 import com.denebchorny.core.designsystem.component.snackbar.factory.SnackbarFactory.errorSnackbar
 import com.denebchorny.core.designsystem.component.snackbar.interactionHolder.UISnackbarHolder
+import com.denebchorny.core.designsystem.component.snackbar.vo.SnackbarMessage
 import com.denebchorny.core.model.article.Article
 import com.denebchorny.feature.articles.domain.usecase.FetchArticlesUseCase
 import com.denebchorny.feature.articles.presentation.R
 import com.denebchorny.feature.articles.presentation.mappers.toItemDataList
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIAction
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent
+import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIResult
+import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIResult.OnArticleClicked
 import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListScreenState
 import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListUiMode
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -76,11 +79,7 @@ class ArticleListViewmodel @Inject constructor(
                     if (articles.isEmpty()) {
                         state.update { it.copy(uiMode = ArticleListUiMode.Retry) }
                     } else {
-                        snackbarHolder.showSnackbar(
-                            errorSnackbar(
-                                text = uiText(R.string.articlelist_error_fetching_data)
-                            )
-                        )
+                        showErrorSnackbar(uiText(R.string.articlelist_error_fetching_data))
                     }
                     setPullToRefresh(false)
                 }
@@ -102,10 +101,13 @@ class ArticleListViewmodel @Inject constructor(
     }
 
     // HELPERS ------------------------------------------------------------------------------------
-    private fun onArticleClicked(
-        id: Long
-    ) {
-
+    private fun onArticleClicked(id: Long) {
+        val article = articles.firstOrNull { it.id == id }
+        if (article == null) {
+            showErrorSnackbar(uiText(R.string.articlelist_error_getting_article))
+        } else {
+            delegateAction(OnArticleClicked(article))
+        }
     }
 
     private fun onPullToRefresh() {
@@ -119,5 +121,13 @@ class ArticleListViewmodel @Inject constructor(
 
     private fun onSearchQueryChanged(query: String) {
         state.update { it.copy(searchQuery = query) }
+    }
+
+    private fun delegateAction(result: ArticleListUIResult) = viewModelScope.launch {
+        action.emit(ArticleListUIAction.DelegateResult(result))
+    }
+
+    private fun showErrorSnackbar(message: UiText) = viewModelScope.launch {
+        snackbarHolder.showSnackbar(errorSnackbar(text = message))
     }
 }
