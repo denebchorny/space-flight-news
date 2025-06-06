@@ -10,8 +10,8 @@ import com.denebchorny.feature.articles.presentation.R
 @Composable
 internal fun EmptyContent() {
     EmptyView(
-        title = stringResource(R.string.articlelist_empty_title),
-        description = stringResource(R.string.articlelist_empty_description)
+        title = stringResource(R.string.articles_empty_title),
+        description = stringResource(R.string.articles_empty_description)
     )
 }
 

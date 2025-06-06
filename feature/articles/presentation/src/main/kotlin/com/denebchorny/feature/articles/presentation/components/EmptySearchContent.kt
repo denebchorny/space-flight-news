@@ -10,8 +10,8 @@ import com.denebchorny.feature.articles.presentation.R
 @Composable
 fun EmptySearchContent() {
     EmptyView(
-        title = stringResource(R.string.articlelist_empty_search_title),
-        description = stringResource(R.string.articlelist_empty_search_description)
+        title = stringResource(R.string.articles_empty_search_title),
+        description = stringResource(R.string.articles_empty_search_description)
     )
 }
 

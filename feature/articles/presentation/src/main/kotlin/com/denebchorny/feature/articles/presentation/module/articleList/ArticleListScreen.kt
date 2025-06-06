@@ -86,7 +86,7 @@ private fun ArticleListLayout(
     ScreenLayout(
         topBar = {
             CenterAlignedTopAppBar(
-                title = stringResource(R.string.articlelist_appbar_title),
+                title = stringResource(R.string.articles_appbar_title),
                 actions = {
                     MenuItem(
                         icon = Icons.Filled.QuestionMark,
@@ -178,7 +178,7 @@ private fun filterItems(
 
 @PreviewScreen
 @Composable
-private fun ScreenPreview() {
+private fun Screen_Preview() {
     ApplicationTheme {
         ArticleListLayout(
             state = ArticleListScreenState(),
