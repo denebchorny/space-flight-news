@@ -73,6 +73,15 @@ class ArticleListViewmodel @Inject constructor(
     private fun fetchArticles() {
         articlesRequestsJob?.cancel()
         articlesRequestsJob = viewModelScope.launch {
+            if (articles.isEmpty()) {
+                state.update {
+                    it.copy(
+                        isLoading = true,
+                        uiMode = ArticleListUiMode.Content
+                    )
+                }
+            }
+
             fetchArticlesUseCase(limit, offset)
                 .onErrorSuspend {
                     if (articles.isEmpty()) {
@@ -80,12 +89,19 @@ class ArticleListViewmodel @Inject constructor(
                     } else {
                         showErrorSnackbar(uiText(R.string.articles_error_fetching_data))
                     }
-                    setPullToRefresh(false)
+                    state.update {
+                        it.copy(
+                            isLoading = false,
+                            isRefreshing = false
+                        )
+                    }
                 }
                 .onSuccess { items ->
                     articles = items
                     state.update {
                         it.copy(
+                            isLoading = false,
+                            isRefreshing = false,
                             items = items.toItemDataList(),
                             uiMode = if (articles.isEmpty()) {
                                 ArticleListUiMode.Empty
@@ -94,7 +110,6 @@ class ArticleListViewmodel @Inject constructor(
                             }
                         )
                     }
-                    setPullToRefresh(false)
                 }
         }
     }
@@ -110,12 +125,8 @@ class ArticleListViewmodel @Inject constructor(
     }
 
     private fun onPullToRefresh() {
-        setPullToRefresh(true)
+        state.update { it.copy(isRefreshing = true) }
         fetchArticles()
-    }
-
-    private fun setPullToRefresh(value: Boolean) {
-        state.update { it.copy(isRefreshing = value) }
     }
 
     private fun onSearchQueryChanged(query: String) {
