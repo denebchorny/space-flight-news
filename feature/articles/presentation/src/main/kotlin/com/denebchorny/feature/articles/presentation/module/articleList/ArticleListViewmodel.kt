@@ -11,7 +11,6 @@ import com.denebchorny.core.common.jvm.result.onErrorSuspend
 import com.denebchorny.core.common.jvm.result.onSuccess
 import com.denebchorny.core.designsystem.component.snackbar.factory.SnackbarFactory.errorSnackbar
 import com.denebchorny.core.designsystem.component.snackbar.interactionHolder.UISnackbarHolder
-import com.denebchorny.core.designsystem.component.snackbar.vo.SnackbarMessage
 import com.denebchorny.core.model.article.Article
 import com.denebchorny.feature.articles.domain.usecase.FetchArticlesUseCase
 import com.denebchorny.feature.articles.presentation.R
@@ -79,7 +78,7 @@ class ArticleListViewmodel @Inject constructor(
                     if (articles.isEmpty()) {
                         state.update { it.copy(uiMode = ArticleListUiMode.Retry) }
                     } else {
-                        showErrorSnackbar(uiText(R.string.articlelist_error_fetching_data))
+                        showErrorSnackbar(uiText(R.string.articles_error_fetching_data))
                     }
                     setPullToRefresh(false)
                 }
@@ -104,7 +103,7 @@ class ArticleListViewmodel @Inject constructor(
     private fun onArticleClicked(id: Long) {
         val article = articles.firstOrNull { it.id == id }
         if (article == null) {
-            showErrorSnackbar(uiText(R.string.articlelist_error_getting_article))
+            showErrorSnackbar(uiText(R.string.articles_error_getting_article))
         } else {
             delegateAction(OnArticleClicked(article))
         }

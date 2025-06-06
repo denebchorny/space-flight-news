@@ -10,8 +10,8 @@ import com.denebchorny.feature.articles.presentation.R
 @Composable
 internal fun RetryContent() {
     EmptyView(
-        title = stringResource(R.string.articlelist_retry_title),
-        description = stringResource(R.string.articlelist_retry_description)
+        title = stringResource(R.string.articles_retry_title),
+        description = stringResource(R.string.articles_retry_description)
     )
 }
 
