@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="articlelist_appbar_title">Space Flight News</string>
+    <string name="articlelist_appbar_title" translatable="false">Space Flight News</string>
     <string name="articlelist_empty_description">Try pulling to refresh later and see if there\'s new news.</string>
     <string name="articlelist_empty_title">No articles at the moment</string>
     <string name="articlelist_retry_description">Check that you have internet and try pulling to refresh again later to see if we can retrieve the articles. Good luck, cadet!.</string>
