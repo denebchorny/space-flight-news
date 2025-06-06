@@ -25,7 +25,7 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            signingConfig = signingConfigs.getByName("debug")
+            //signingConfig = signingConfigs.getByName("debug")
         }
 
         release {
@@ -38,11 +38,11 @@ android {
         }
     }
 
-    signingConfigs {
+    /*signingConfigs {
         getByName("debug") {
             storeFile = file("../keys/space_flight_news.keystore")
         }
-    }
+    }*/
 
     namespace = Config.App.id
 }
