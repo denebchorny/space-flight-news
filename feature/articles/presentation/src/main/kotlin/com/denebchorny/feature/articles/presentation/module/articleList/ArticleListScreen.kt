@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.denebchorny.core.designsystem.component.appBar.CenterAlignedTopAppBar
@@ -35,12 +38,15 @@ import com.denebchorny.core.ui.component.card.ArticleCard
 import com.denebchorny.core.ui.component.card.ArticleItemData
 import com.denebchorny.core.ui.component.observer.Lifecycle
 import com.denebchorny.core.ui.component.search.SearchBar
+import com.denebchorny.core.ui.component.shimmer.ShimmerBox
 import com.denebchorny.feature.articles.presentation.R
-import com.denebchorny.feature.articles.presentation.components.EmptyContent
-import com.denebchorny.feature.articles.presentation.components.EmptySearchContent
-import com.denebchorny.feature.articles.presentation.components.RetryContent
+import com.denebchorny.feature.articles.presentation.components.dialog.ItsMeDialog
+import com.denebchorny.feature.articles.presentation.components.emptyView.EmptyContent
+import com.denebchorny.feature.articles.presentation.components.emptyView.EmptySearchContent
+import com.denebchorny.feature.articles.presentation.components.emptyView.RetryContent
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIAction
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnArticleClicked
+import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnDismissBottomSheet
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnMenuItemClicked
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnPullToRefresh
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnSearchQueryChanged
@@ -66,6 +72,7 @@ fun ArticleListScreen(
     val callbacks = remember {
         ArticleListCallbacks(
             onArticleClicked = { viewmodel.onEvent(OnArticleClicked(it)) },
+            onDismissBottomSheet = { viewmodel.onEvent(OnDismissBottomSheet) },
             onMenuItemClicked = { viewmodel.onEvent(OnMenuItemClicked) },
             onPullToRefresh = { viewmodel.onEvent(OnPullToRefresh) },
             onSearchQueryChanged = { viewmodel.onEvent(OnSearchQueryChanged(it)) },
@@ -113,8 +120,7 @@ private fun ArticleListLayout(
                 Column(modifier = Modifier.fillMaxSize()) {
                     when (state.uiMode) {
                         ArticleListUiMode.Content -> ArticleListContent(
-                            items = state.items,
-                            searchQuery = state.searchQuery,
+                            state = state,
                             scrollBehavior = scrollBehavior,
                             callbacks = callbacks
                         )
@@ -124,6 +130,10 @@ private fun ArticleListLayout(
                     }
                 }
             }
+
+            if (state.showDialog) {
+                ItsMeDialog { callbacks.onDismissBottomSheet() }
+            }
         }
     }
 }
@@ -131,19 +141,18 @@ private fun ArticleListLayout(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ArticleListContent(
-    items: List<ArticleItemData>,
-    searchQuery: String,
+    state: ArticleListScreenState,
     scrollBehavior: TopAppBarScrollBehavior,
     callbacks: ArticleListCallbacks
 ) {
     val spacing = LocalSpacing.current
     val listState = rememberLazyListState()
 
-    val filteredItems by remember(items, searchQuery) {
-        derivedStateOf { filterItems(items, searchQuery) }
+    val filteredItems by remember(state.items, state.searchQuery) {
+        derivedStateOf { filterItems(state.items, state.searchQuery) }
     }
 
-    if (searchQuery.isNotEmpty() && filteredItems.isEmpty()) {
+    if (state.searchQuery.isNotEmpty() && filteredItems.isEmpty()) {
         EmptySearchContent()
     } else {
         LazyColumn(
@@ -157,12 +166,24 @@ private fun ArticleListContent(
             ),
             verticalArrangement = Arrangement.spacedBy(spacing.medium),
         ) {
-            items(items = filteredItems, key = { item -> item.id }) { item ->
-                ArticleCard(
-                    modifier = Modifier.animateItem(),
-                    article = item
-                ) {
-                    callbacks.onArticleClicked(item.id)
+            if (state.isLoading) {
+                repeat(10) {
+                    item(key = it) {
+                        ShimmerBox(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                        )
+                    }
+                }
+            } else {
+                items(items = filteredItems, key = { item -> item.id }) { item ->
+                    ArticleCard(
+                        modifier = Modifier.animateItem(),
+                        article = item
+                    ) {
+                        callbacks.onArticleClicked(item.id)
+                    }
                 }
             }
         }
@@ -187,6 +208,7 @@ private fun Screen_Preview() {
                 onMenuItemClicked = { },
                 onPullToRefresh = { },
                 onSearchQueryChanged = { },
+                onDismissBottomSheet = { },
             )
         )
     }

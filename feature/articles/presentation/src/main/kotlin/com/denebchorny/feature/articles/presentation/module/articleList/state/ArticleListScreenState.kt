@@ -15,5 +15,6 @@ data class ArticleListScreenState(
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
     val searchQuery: String = "",
-    val items: List<ArticleItemData> = listOf()
+    val items: List<ArticleItemData> = listOf(),
+    val showDialog: Boolean = false
 )

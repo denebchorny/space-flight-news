@@ -9,4 +9,6 @@
     <string name="articles_error_getting_article">No se pudo obtener la información del artículo.</string>
     <string name="articles_retry_description">Verifica que tienes internet e intenta nuevamente más tarde deslizar para actualizar y veamos si recuperamos los artículos. ¡Mucho éxito, cadete!</string>
     <string name="articles_retry_title">¡Ops! Houston, tenemos un problema</string>
+    <string name="articles_its_me_dialog_description">Hice esto como un desafío, pero terminó siendo algo divertido.</string>
+    <string name="articles_its_me_dialog_extra">Si miras el código, puede parecer que estoy matando a una pequeña hormiga con un rayo láser. Pero todo tiene un propósito. El principal es demostrar mis habilidades y compartir con quien lo vea un poco de la arquitectura de la que estoy orgulloso de haber construido.</string>
 </resources>

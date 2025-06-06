@@ -22,6 +22,7 @@ import com.denebchorny.feature.articles.presentation.module.articleList.interact
 import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListScreenState
 import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListUiMode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +33,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticleListViewmodel @Inject constructor(
-    val fetchArticlesUseCase: FetchArticlesUseCase
+    private val fetchArticlesUseCase: FetchArticlesUseCase,
+    private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel(), LifecycleListener, UIEventListener<ArticleListUIEvent> {
 
     // ATTRIBUTES ---------------------------------------------------------------------------------
@@ -53,7 +55,8 @@ class ArticleListViewmodel @Inject constructor(
     override fun onEvent(event: ArticleListUIEvent) {
         when (event) {
             is ArticleListUIEvent.OnArticleClicked -> onArticleClicked(event.id)
-            is ArticleListUIEvent.OnMenuItemClicked -> {}
+            is ArticleListUIEvent.OnDismissBottomSheet -> onDismissBottomSheet(false)
+            is ArticleListUIEvent.OnMenuItemClicked -> onDismissBottomSheet(true)
             is ArticleListUIEvent.OnPullToRefresh -> onPullToRefresh()
             is ArticleListUIEvent.OnSearchQueryChanged -> onSearchQueryChanged(event.query)
         }
@@ -72,7 +75,16 @@ class ArticleListViewmodel @Inject constructor(
     // API CALLS ----------------------------------------------------------------------------------
     private fun fetchArticles() {
         articlesRequestsJob?.cancel()
-        articlesRequestsJob = viewModelScope.launch {
+        articlesRequestsJob = viewModelScope.launch(mainDispatcher) {
+            if (articles.isEmpty()) {
+                state.update {
+                    it.copy(
+                        isLoading = true,
+                        uiMode = ArticleListUiMode.Content
+                    )
+                }
+            }
+
             fetchArticlesUseCase(limit, offset)
                 .onErrorSuspend {
                     if (articles.isEmpty()) {
@@ -80,12 +92,19 @@ class ArticleListViewmodel @Inject constructor(
                     } else {
                         showErrorSnackbar(uiText(R.string.articles_error_fetching_data))
                     }
-                    setPullToRefresh(false)
+                    state.update {
+                        it.copy(
+                            isLoading = false,
+                            isRefreshing = false
+                        )
+                    }
                 }
                 .onSuccess { items ->
                     articles = items
                     state.update {
                         it.copy(
+                            isLoading = false,
+                            isRefreshing = false,
                             items = items.toItemDataList(),
                             uiMode = if (articles.isEmpty()) {
                                 ArticleListUiMode.Empty
@@ -94,7 +113,6 @@ class ArticleListViewmodel @Inject constructor(
                             }
                         )
                     }
-                    setPullToRefresh(false)
                 }
         }
     }
@@ -110,12 +128,8 @@ class ArticleListViewmodel @Inject constructor(
     }
 
     private fun onPullToRefresh() {
-        setPullToRefresh(true)
+        state.update { it.copy(isRefreshing = true) }
         fetchArticles()
-    }
-
-    private fun setPullToRefresh(value: Boolean) {
-        state.update { it.copy(isRefreshing = value) }
     }
 
     private fun onSearchQueryChanged(query: String) {
@@ -128,5 +142,9 @@ class ArticleListViewmodel @Inject constructor(
 
     private fun showErrorSnackbar(message: UiText) = viewModelScope.launch {
         snackbarHolder.showSnackbar(errorSnackbar(text = message))
+    }
+
+    private fun onDismissBottomSheet(show: Boolean) = viewModelScope.launch {
+        state.update { it.copy(showDialog = show) }
     }
 }

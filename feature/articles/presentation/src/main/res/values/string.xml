@@ -10,4 +10,7 @@
     <string name="articles_error_getting_article">Could not get article information.</string>
     <string name="articles_retry_description">Check that you have internet and try pulling to refresh again later to see if we can retrieve the articles. Good luck, cadet!.</string>
     <string name="articles_retry_title">Ops! Houston, we have a problem</string>
+    <string name="articles_its_me_dialog_title" translatable="false">Itsumi, Deneb Chorny, Wahooo!</string>
+    <string name="articles_its_me_dialog_description">I did this as a challenge, but it ended up being something fun.</string>
+    <string name="articles_its_me_dialog_extra">If you look at the code, it may seem like I’m killing a little ant with a laser beam. But everything has a purpose. The main one is to demonstrate my skills and to share with anyone who sees it a bit of the architecture I’m proud to have built.</string>
 </resources>
