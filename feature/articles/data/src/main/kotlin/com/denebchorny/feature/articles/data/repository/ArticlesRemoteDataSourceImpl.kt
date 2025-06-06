@@ -22,9 +22,7 @@ class ArticlesRemoteDataSourceImpl @Inject constructor(
     ): Outcome<ArticleError, PaginatedArticlesDTO> {
         return api.fetchArticles(limit, offset).fold(
             onSuccess = { Outcome.Success(it) },
-            onError = { _, error ->
-                Log.d("DenebHolmes", "Error: ${error?.message}")
-                Outcome.Error(ArticleError.JustAnError) }
+            onError = { _, _ -> Outcome.Error(ArticleError.JustAnError) }
         )
     }
 

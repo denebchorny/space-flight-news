@@ -37,7 +37,7 @@ class ArticleListViewmodel @Inject constructor(
     private var articlesRequestsJob: Job? = null
     private var limit: Int = 10
     private var offset: Int = 0
-    private val articles: MutableList<Article> = mutableListOf()
+    private var articles: List<Article> = listOf()
 
     // INTERACTION --------------------------------------------------------------------------------
     private val state = MutableStateFlow(ArticleListScreenState())
@@ -52,7 +52,7 @@ class ArticleListViewmodel @Inject constructor(
         when (event) {
             is ArticleListUIEvent.OnArticleClicked -> onArticleClicked(event.id)
             is ArticleListUIEvent.OnMenuItemClicked -> {}
-            is ArticleListUIEvent.OnPullToRefresh -> {}
+            is ArticleListUIEvent.OnPullToRefresh -> onPullToRefresh()
             is ArticleListUIEvent.OnSearchQueryChanged -> {}
         }
     }
@@ -73,7 +73,6 @@ class ArticleListViewmodel @Inject constructor(
         articlesRequestsJob = viewModelScope.launch {
             fetchArticlesUseCase(limit, offset)
                 .onErrorSuspend {
-                    Log.d("DenebHolmes", "Error")
                     if (articles.isEmpty()) {
                         state.update { it.copy(uiMode = ArticleListUiMode.Retry) }
                     } else {
@@ -82,16 +81,14 @@ class ArticleListViewmodel @Inject constructor(
                                 text = uiText(R.string.articlelist_error_fetching_data)
                             )
                         )
-
-                        // Show button to retry reload
                     }
+                    setPullToRefresh(false)
                 }
                 .onSuccess { items ->
-                    Log.d("DenebHolmes", "Success")
-                    articles += items
+                    articles = items
                     state.update {
                         it.copy(
-                            items = articles.toItemDataList(),
+                            items = items.toItemDataList(),
                             uiMode = if (articles.isEmpty()) {
                                 ArticleListUiMode.Empty
                             } else {
@@ -99,6 +96,7 @@ class ArticleListViewmodel @Inject constructor(
                             }
                         )
                     }
+                    setPullToRefresh(false)
                 }
         }
     }
@@ -108,5 +106,14 @@ class ArticleListViewmodel @Inject constructor(
         id: Long
     ) {
 
+    }
+
+    private fun onPullToRefresh() {
+        setPullToRefresh(true)
+        fetchArticles()
+    }
+
+    private fun setPullToRefresh(value: Boolean){
+        state.update { it.copy(isRefreshing = value) }
     }
 }

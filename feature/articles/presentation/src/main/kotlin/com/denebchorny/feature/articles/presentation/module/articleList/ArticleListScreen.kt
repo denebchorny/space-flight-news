@@ -2,6 +2,7 @@ package com.denebchorny.feature.articles.presentation.module.articleList
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -27,11 +29,14 @@ import com.denebchorny.core.designsystem.component.pullToRefresh.PullToRefresh
 import com.denebchorny.core.designsystem.preview.PreviewScreen
 import com.denebchorny.core.designsystem.theme.ApplicationTheme
 import com.denebchorny.core.designsystem.theme.Theme
+import com.denebchorny.core.designsystem.theme.dimension.LocalSpacing
 import com.denebchorny.core.ui.component.card.ArticleCard
 import com.denebchorny.core.ui.component.card.ArticleItemData
 import com.denebchorny.core.ui.component.observer.Lifecycle
 import com.denebchorny.core.ui.component.search.SearchBar
 import com.denebchorny.feature.articles.presentation.R
+import com.denebchorny.feature.articles.presentation.components.EmptyContent
+import com.denebchorny.feature.articles.presentation.components.RetryContent
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIAction
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnArticleClicked
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnMenuItemClicked
@@ -104,15 +109,17 @@ private fun ArticleListLayout(
                 isRefreshing = state.isRefreshing,
                 onRefresh = callbacks.onPullToRefresh
             ) {
-                when (state.uiMode) {
-                    ArticleListUiMode.Content -> ArticleListContent(
-                        items = state.items,
-                        scrollBehavior = scrollBehavior,
-                        callbacks = callbacks
-                    )
+                Column(modifier = Modifier.fillMaxSize()) {
+                    when (state.uiMode) {
+                        ArticleListUiMode.Content -> ArticleListContent(
+                            items = state.items,
+                            scrollBehavior = scrollBehavior,
+                            callbacks = callbacks
+                        )
 
-                    ArticleListUiMode.Empty -> {}
-                    ArticleListUiMode.Retry -> {}
+                        ArticleListUiMode.Empty -> EmptyContent()
+                        ArticleListUiMode.Retry -> RetryContent()
+                    }
                 }
             }
         }
@@ -126,12 +133,19 @@ private fun ArticleListContent(
     scrollBehavior: TopAppBarScrollBehavior,
     callbacks: ArticleListCallbacks
 ) {
+    val spacing = LocalSpacing.current
     val listState = rememberLazyListState()
 
     LazyColumn(
-        modifier = Modifier,
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         state = listState,
-        verticalArrangement = Arrangement.spacedBy(Theme.spacing.medium),
+        contentPadding = PaddingValues(
+            start = spacing.default,
+            end = spacing.default,
+            top = spacing.default,
+            bottom = spacing.large
+        ),
+        verticalArrangement = Arrangement.spacedBy(spacing.medium),
     ) {
         items(items = items, key = { item -> item.id }) { item ->
             ArticleCard(article = item) {
