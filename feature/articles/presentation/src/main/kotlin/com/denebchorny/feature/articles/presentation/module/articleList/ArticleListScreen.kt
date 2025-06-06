@@ -40,11 +40,13 @@ import com.denebchorny.core.ui.component.observer.Lifecycle
 import com.denebchorny.core.ui.component.search.SearchBar
 import com.denebchorny.core.ui.component.shimmer.ShimmerBox
 import com.denebchorny.feature.articles.presentation.R
-import com.denebchorny.feature.articles.presentation.components.EmptyContent
-import com.denebchorny.feature.articles.presentation.components.EmptySearchContent
-import com.denebchorny.feature.articles.presentation.components.RetryContent
+import com.denebchorny.feature.articles.presentation.components.dialog.ItsMeDialog
+import com.denebchorny.feature.articles.presentation.components.emptyView.EmptyContent
+import com.denebchorny.feature.articles.presentation.components.emptyView.EmptySearchContent
+import com.denebchorny.feature.articles.presentation.components.emptyView.RetryContent
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIAction
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnArticleClicked
+import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnDismissBottomSheet
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnMenuItemClicked
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnPullToRefresh
 import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent.OnSearchQueryChanged
@@ -70,6 +72,7 @@ fun ArticleListScreen(
     val callbacks = remember {
         ArticleListCallbacks(
             onArticleClicked = { viewmodel.onEvent(OnArticleClicked(it)) },
+            onDismissBottomSheet = { viewmodel.onEvent(OnDismissBottomSheet) },
             onMenuItemClicked = { viewmodel.onEvent(OnMenuItemClicked) },
             onPullToRefresh = { viewmodel.onEvent(OnPullToRefresh) },
             onSearchQueryChanged = { viewmodel.onEvent(OnSearchQueryChanged(it)) },
@@ -126,6 +129,10 @@ private fun ArticleListLayout(
                         ArticleListUiMode.Retry -> RetryContent()
                     }
                 }
+            }
+
+            if (state.showDialog) {
+                ItsMeDialog { callbacks.onDismissBottomSheet() }
             }
         }
     }
@@ -201,6 +208,7 @@ private fun Screen_Preview() {
                 onMenuItemClicked = { },
                 onPullToRefresh = { },
                 onSearchQueryChanged = { },
+                onDismissBottomSheet = { },
             )
         )
     }

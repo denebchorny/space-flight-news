@@ -53,7 +53,8 @@ class ArticleListViewmodel @Inject constructor(
     override fun onEvent(event: ArticleListUIEvent) {
         when (event) {
             is ArticleListUIEvent.OnArticleClicked -> onArticleClicked(event.id)
-            is ArticleListUIEvent.OnMenuItemClicked -> {}
+            is ArticleListUIEvent.OnDismissBottomSheet -> onDismissBottomSheet(false)
+            is ArticleListUIEvent.OnMenuItemClicked -> onDismissBottomSheet(true)
             is ArticleListUIEvent.OnPullToRefresh -> onPullToRefresh()
             is ArticleListUIEvent.OnSearchQueryChanged -> onSearchQueryChanged(event.query)
         }
@@ -139,5 +140,9 @@ class ArticleListViewmodel @Inject constructor(
 
     private fun showErrorSnackbar(message: UiText) = viewModelScope.launch {
         snackbarHolder.showSnackbar(errorSnackbar(text = message))
+    }
+
+    private fun onDismissBottomSheet(show: Boolean) = viewModelScope.launch {
+        state.update { it.copy(showDialog = show) }
     }
 }

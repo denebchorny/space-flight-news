@@ -1,4 +1,4 @@
-package com.denebchorny.feature.articles.presentation.components
+package com.denebchorny.feature.articles.presentation.components.emptyView
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
