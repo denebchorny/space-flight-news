@@ -1,5 +1,7 @@
 package com.denebchorny.feature.articles.data.remote.dto
 
+import kotlinx.serialization.Serializable
+
 /**
  * A paginated list of [ArticleDTO] items.
  *
@@ -9,6 +11,7 @@ package com.denebchorny.feature.articles.data.remote.dto
  *  - previous: URL of previous page (nullable)
  *  - results: list of [ArticleDTO]
  */
+@Serializable
 data class PaginatedArticlesDTO(
     val results: List<ArticleDTO>
 )

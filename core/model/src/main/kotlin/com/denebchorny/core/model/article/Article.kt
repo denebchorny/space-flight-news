@@ -21,7 +21,7 @@ import com.denebchorny.core.model.launch.Launch
  * @property events       List of related events. At least one [Event].
  */
 data class Article(
-    val id: Int,
+    val id:  Long,
     val title: String,
     val authors: List<Author>,
     val url: String,

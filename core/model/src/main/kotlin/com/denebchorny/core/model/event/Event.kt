@@ -7,6 +7,6 @@ package com.denebchorny.core.model.event
  * @property provider  Which service provided this event (e.g. “Launch Library 2”).
  */
 data class Event(
-    val id: Int,
+    val id: Long,
     val provider: String
 )

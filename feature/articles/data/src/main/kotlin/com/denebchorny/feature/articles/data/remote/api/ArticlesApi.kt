@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface ArticlesApi {
 
-    @Timeout(read = 20, write = 20, conn = 20)
+    @Timeout(read = 20_000, write = 20_000, conn = 20_000)
     @GET("v4/articles")
     suspend fun fetchArticles(
         @Query("limit") limit: Int = 10,

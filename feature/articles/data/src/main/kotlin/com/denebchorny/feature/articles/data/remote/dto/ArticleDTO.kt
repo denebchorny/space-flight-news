@@ -1,5 +1,8 @@
 package com.denebchorny.feature.articles.data.remote.dto
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 /**
  * Domain model for an Article.
  *
@@ -16,15 +19,20 @@ package com.denebchorny.feature.articles.data.remote.dto
  * @property launches     List of related launches. At least one [LaunchDTO].
  * @property events       List of related events. At least one [EventDTO].
  */
+@Serializable
 data class ArticleDTO(
-    val id: Int,
+    val id: Long,
     val title: String,
     val authors: List<AuthorDTO>,
     val url: String,
+    @SerialName("image_url")
     val imageUrl: String?,
+    @SerialName("news_site")
     val newsSite: String?,
     val summary: String?,
+    @SerialName("published_at")
     val publishedAt: String,
+    @SerialName("updated_at")
     val updatedAt: String,
     val featured: Boolean,
     val launches: List<LaunchDTO>,

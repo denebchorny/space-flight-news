@@ -49,18 +49,25 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(projects.core.network.di)
+
+    implementation(projects.feature.articles.data)
+    implementation(projects.feature.articles.presentation)
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.multidex)
+    implementation(libs.timber)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.activity)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.compose.navigation)
 
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

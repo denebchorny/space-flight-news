@@ -1,0 +1,112 @@
+package com.denebchorny.feature.articles.presentation.module.articleList
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.denebchorny.core.common.android.resources.uiText.uiText
+import com.denebchorny.core.common.android.viewmodel.LifecycleListener
+import com.denebchorny.core.common.android.viewmodel.UIEventListener
+import com.denebchorny.core.common.jvm.interactionHolder.UIActionHolder
+import com.denebchorny.core.common.jvm.result.onErrorSuspend
+import com.denebchorny.core.common.jvm.result.onSuccess
+import com.denebchorny.core.designsystem.component.snackbar.factory.SnackbarFactory.errorSnackbar
+import com.denebchorny.core.designsystem.component.snackbar.interactionHolder.UISnackbarHolder
+import com.denebchorny.core.model.article.Article
+import com.denebchorny.feature.articles.domain.usecase.FetchArticlesUseCase
+import com.denebchorny.feature.articles.presentation.R
+import com.denebchorny.feature.articles.presentation.mappers.toItemDataList
+import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIAction
+import com.denebchorny.feature.articles.presentation.module.articleList.interaction.ArticleListUIEvent
+import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListScreenState
+import com.denebchorny.feature.articles.presentation.module.articleList.state.ArticleListUiMode
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class ArticleListViewmodel @Inject constructor(
+    val fetchArticlesUseCase: FetchArticlesUseCase
+) : ViewModel(), LifecycleListener, UIEventListener<ArticleListUIEvent> {
+
+    // ATTRIBUTES ---------------------------------------------------------------------------------
+    private var articlesRequestsJob: Job? = null
+    private var limit: Int = 10
+    private var offset: Int = 0
+    private val articles: MutableList<Article> = mutableListOf()
+
+    // INTERACTION --------------------------------------------------------------------------------
+    private val state = MutableStateFlow(ArticleListScreenState())
+    val uiState: StateFlow<ArticleListScreenState> = state.asStateFlow()
+
+    private val action = UIActionHolder<ArticleListUIAction>()
+    val uiAction = action.flow
+
+    private val snackbarHolder = UISnackbarHolder()
+
+    override fun onEvent(event: ArticleListUIEvent) {
+        when (event) {
+            is ArticleListUIEvent.OnArticleClicked -> onArticleClicked(event.id)
+            is ArticleListUIEvent.OnMenuItemClicked -> {}
+            is ArticleListUIEvent.OnPullToRefresh -> {}
+            is ArticleListUIEvent.OnSearchQueryChanged -> {}
+        }
+    }
+
+    // LIFECYCLE ----------------------------------------------------------------------------------
+    override fun onStart() {
+        fetchArticles()
+    }
+
+    override fun onStop() {
+        articlesRequestsJob?.cancel()
+        super.onStop()
+    }
+
+    // API CALLS ----------------------------------------------------------------------------------
+    private fun fetchArticles() {
+        articlesRequestsJob?.cancel()
+        articlesRequestsJob = viewModelScope.launch {
+            fetchArticlesUseCase(limit, offset)
+                .onErrorSuspend {
+                    Log.d("DenebHolmes", "Error")
+                    if (articles.isEmpty()) {
+                        state.update { it.copy(uiMode = ArticleListUiMode.Retry) }
+                    } else {
+                        snackbarHolder.showSnackbar(
+                            errorSnackbar(
+                                text = uiText(R.string.articlelist_error_fetching_data)
+                            )
+                        )
+
+                        // Show button to retry reload
+                    }
+                }
+                .onSuccess { items ->
+                    Log.d("DenebHolmes", "Success")
+                    articles += items
+                    state.update {
+                        it.copy(
+                            items = articles.toItemDataList(),
+                            uiMode = if (articles.isEmpty()) {
+                                ArticleListUiMode.Empty
+                            } else {
+                                ArticleListUiMode.Content
+                            }
+                        )
+                    }
+                }
+        }
+    }
+
+    // HELPERS ------------------------------------------------------------------------------------
+    private fun onArticleClicked(
+        id: Long
+    ) {
+
+    }
+}

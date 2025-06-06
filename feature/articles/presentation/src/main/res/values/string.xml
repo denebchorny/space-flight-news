@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="articlelist_appbar_title">Space Flight News</string>
+    <string name="articlelist_error_fetching_data">Oops! An error occurred while trying to update the information.</string>
+</resources>

@@ -1,5 +1,6 @@
 package com.denebchorny.feature.articles.data.repository
 
+import android.util.Log
 import com.denebchorny.core.common.jvm.result.Outcome
 import com.denebchorny.core.network.android.adapter.fold
 import com.denebchorny.feature.articles.data.remote.api.ArticlesApi
@@ -21,7 +22,9 @@ class ArticlesRemoteDataSourceImpl @Inject constructor(
     ): Outcome<ArticleError, PaginatedArticlesDTO> {
         return api.fetchArticles(limit, offset).fold(
             onSuccess = { Outcome.Success(it) },
-            onError = { _, _ -> Outcome.Error(ArticleError.JustAnError) }
+            onError = { _, error ->
+                Log.d("DenebHolmes", "Error: ${error?.message}")
+                Outcome.Error(ArticleError.JustAnError) }
         )
     }
 

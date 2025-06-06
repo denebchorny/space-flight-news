@@ -53,7 +53,7 @@ class ProviderModule {
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
             .client(client)
-            .baseUrl("https://localhost/")
+            .baseUrl("https://api.spaceflightnewsapi.net/")
             .build()
     }
 }

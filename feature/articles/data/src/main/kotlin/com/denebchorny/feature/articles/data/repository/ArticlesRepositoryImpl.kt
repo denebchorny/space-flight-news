@@ -2,7 +2,6 @@ package com.denebchorny.feature.articles.data.repository
 
 import com.denebchorny.core.common.jvm.result.Outcome
 import com.denebchorny.core.common.jvm.result.flatMap
-import com.denebchorny.core.common.jvm.result.flatMapError
 import com.denebchorny.core.model.article.Article
 import com.denebchorny.feature.articles.data.mapper.toArticle
 import com.denebchorny.feature.articles.data.mapper.toArticleList
