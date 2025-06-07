@@ -60,7 +60,7 @@ Develop a mobile app with the following screens and functionalities:
 
 ## A Journey of Research and Development
 
-While the development team consisted of a single crew member (yours truly), the mission was carried out with the agility and ingenuity necessary to achieve the objectives. To optimize time, I adopted an **agile yet structured methodology**, adapting the phases of a development cycle for an efficient launch.
+While the development team consisted of a single crew member (yours truly), the mission was carried out with the agility and ingenuity necessary to achieve the objectives. To optimize time, I adopted an **hybrid yet structured methodology**, adapting the phases of a development cycle for an efficient launch.
 
 ### Analysis:
 
@@ -86,7 +86,15 @@ Regarding the maintenance phase, it's a chapter that will be written as the proj
 
 ## 📸 Screenshots
 
-> Coming soon...
+<div style="display: flex; gap: 45px; align-items: center;">
+  <img src="./screenshots/1.jpg"  width="300"  alt=""/>
+  <img src="./screenshots/2.jpg" width="300" alt=""/>
+  <img src="./screenshots/3.jpg" width="300" alt=""/>
+  <img src="./screenshots/4.jpg" width="300" alt=""/>
+  <img src="./screenshots/5.jpg" width="300" alt=""/>
+  <img src="./screenshots/6.jpg" width="300" alt=""/>
+  <img src="./screenshots/7.jpg" width="300" alt=""/>
+</div>
 
 ---
 

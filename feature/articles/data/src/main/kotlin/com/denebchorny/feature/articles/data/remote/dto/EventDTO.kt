@@ -1,5 +1,6 @@
 package com.denebchorny.feature.articles.data.remote.dto
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
@@ -10,6 +11,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class EventDTO(
+    @SerialName("event_id")
     val id: Long,
-    val provider: String
+    val provider: String?
 )

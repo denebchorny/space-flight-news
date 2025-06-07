@@ -6,15 +6,15 @@ import com.denebchorny.feature.articles.data.remote.dto.ArticleDTO
 fun ArticleDTO.toArticle(): Article {
     return Article(
         id = id,
-        title = title,
+        title = title.orEmpty(),
         authors = authors.toAuthorList(),
-        url = url,
+        url = url.orEmpty(),
         imageUrl = imageUrl.orEmpty(),
         newsSite = newsSite.orEmpty(),
         summary = summary.orEmpty(),
-        publishedAt = publishedAt,
-        updatedAt = updatedAt,
-        featured = featured,
+        publishedAt = publishedAt.orEmpty(),
+        updatedAt = updatedAt.orEmpty(),
+        featured = featured ?: false,
         launches = launches.toLaunchList(),
         events = events.toEventList()
     )

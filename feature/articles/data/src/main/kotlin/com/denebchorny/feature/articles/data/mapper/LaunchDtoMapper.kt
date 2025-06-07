@@ -6,7 +6,7 @@ import com.denebchorny.feature.articles.data.remote.dto.LaunchDTO
 fun LaunchDTO.toLaunch(): Launch {
     return Launch(
         id = id,
-        provider = provider
+        provider = provider.orEmpty()
     )
 }
 

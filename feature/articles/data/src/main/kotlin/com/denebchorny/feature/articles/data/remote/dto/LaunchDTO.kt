@@ -1,5 +1,6 @@
 package com.denebchorny.feature.articles.data.remote.dto
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
@@ -10,6 +11,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class LaunchDTO(
+    @SerialName("launch_id")
     val id: String,
-    val provider: String
+    val provider: String?
 )

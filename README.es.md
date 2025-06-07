@@ -63,7 +63,7 @@ Desarrollar una aplicación móvil con las siguientes pantallas y funcionalidade
 
 ## Un viaje de investigación y desarrollo
 
-Si bien el equipo de desarrollo constaba de un único tripulante (su servidor), la misión se llevó a cabo con la agilidad y el ingenio necesarios para alcanzar los objetivos. Para optimizar el tiempo, adopté una **metodología ágil pero estructurada**, adaptando las fases de un ciclo de desarrollo para un lanzamiento eficiente.
+Si bien el equipo de desarrollo constaba de un único tripulante (su servidor), la misión se llevó a cabo con la agilidad y el ingenio necesarios para alcanzar los objetivos. Para optimizar el tiempo, adopté una **metodología hibrida pero estructurada**, adaptando las fases de un ciclo de desarrollo para un lanzamiento eficiente.
 
 ### Análisis:
 
@@ -89,7 +89,15 @@ Respecto a la fase de mantenimiento, es un capítulo que se escribirá a medida 
 
 ## 📸 Screenshots
 
-> Próximamente...
+<div style="display: flex; gap: 45px; align-items: center;">
+  <img src="./screenshots/1.jpg"  width="300"  alt=""/>
+  <img src="./screenshots/2.jpg" width="300" alt=""/>
+  <img src="./screenshots/3.jpg" width="300" alt=""/>
+  <img src="./screenshots/4.jpg" width="300" alt=""/>
+  <img src="./screenshots/5.jpg" width="300" alt=""/>
+  <img src="./screenshots/6.jpg" width="300" alt=""/>
+  <img src="./screenshots/7.jpg" width="300" alt=""/>
+</div>
 
 ---
 

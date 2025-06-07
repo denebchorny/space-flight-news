@@ -6,7 +6,7 @@ import com.denebchorny.feature.articles.data.remote.dto.EventDTO
 fun EventDTO.toEvent(): Event {
     return Event(
         id = id,
-        provider = provider
+        provider = provider.orEmpty()
     )
 }
 
