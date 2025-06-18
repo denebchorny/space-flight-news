@@ -25,6 +25,15 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             testOptions.animationsDisabled = true
             buildFeatures.buildConfig = true
+
+            buildTypes {
+                debug {
+                    buildConfigField("String", "BASE_URL", "\"https://debug.api.spaceflightnewsapi.net/\"")
+                }
+                release {
+                    buildConfigField("String", "BASE_URL", "\"https://api.spaceflightnewsapi.net/\"")
+                }
+            }
         }
     }
 }

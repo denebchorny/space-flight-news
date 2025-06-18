@@ -47,13 +47,14 @@ class ProviderModule {
     fun providesRetrofit(
         httpBuilder: OkHttpClient.Builder,
         networkJson: Json,
+        config: ApplicationConfig
     ): Retrofit {
         val client: OkHttpClient = httpBuilder.build()
         return Retrofit.Builder()
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
             .client(client)
-            .baseUrl("https://api.spaceflightnewsapi.net/")
+            .baseUrl(config.baseUrl)
             .build()
     }
 }

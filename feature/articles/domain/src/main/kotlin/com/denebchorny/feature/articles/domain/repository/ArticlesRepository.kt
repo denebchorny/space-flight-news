@@ -10,5 +10,5 @@ interface ArticlesRepository {
         offset: Int = 0
     ): Outcome<ArticleError, List<Article>>
 
-    suspend fun getArticle(id: Int): Outcome<ArticleError, Article>
+    suspend fun getArticle(id: Long): Outcome<ArticleError, Article> // Changed Int to Long
 }

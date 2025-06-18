@@ -17,6 +17,7 @@ internal object ConfigurationModule {
     fun providesApplicationConfig(): ApplicationConfig {
         return ApplicationConfig(
             isDebug = BuildConfig.DEBUG,
+            baseUrl = BuildConfig.BASE_URL
         )
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.denebchorny.androidFeatureData)
     alias(libs.plugins.denebchorny.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -19,4 +20,8 @@ dependencies {
     testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }
